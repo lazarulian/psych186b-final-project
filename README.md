@@ -16,6 +16,13 @@ pip install -r requirements.txt
 pip freeze > requirements.txt
 ```
 
+## Literature
+
+- [Convolutional Neural Networks Approach for Music Genre Classification](https://ieeexplore.ieee.org/document/9394067)
+  - Exploring the workings of how CNN's operate using our dataset. This is more of a scientific paper.
+- [Music Genre Classification Using CNN](https://www.clairvoyant.ai/blog/music-genre-classification-using-cnn)
+  - Simple example of classification using CNN
+
 ## Project Overview
 
 - **Objective**: To create a machine learning model capable of classifying music samples into different genres based on audio signals.
