@@ -46,6 +46,11 @@ pip freeze > requirements.txt
 - **Model Evaluation**:
   - Train the model using a split of training and testing data, monitoring for overfitting.
   - Evaluate model performance using accuracy metrics and adjust parameters as necessary to improve results.
+  - Evaluate model based off of various edge cases listed below
+    - Reversed audio file
+    - Audio files that are noisy
+    - Audio files that filter out high frequency and low frequency
+    - Audio files that are indicative of multiple genres
 
 ### Platform Building
 
