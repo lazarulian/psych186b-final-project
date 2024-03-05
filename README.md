@@ -1,3 +1,34 @@
+## Use the Classifier
+To try out the classifier, set your environment up using the developer instructions, then hop into a notebook to use the `Classifier` module. I already set one up titled `Predict.ipynb`. Within the playground, you can call and use the classifier as follows. 
+
+```python3
+# Initialize Parameters
+song_files = ["./data/Ex-Factor_LaurynHill.mp3", "./data/CaliforniaLove_Tupac.wav", "ASongofIceandFire_GameOfThrones.wav"]
+clip_duration = 3
+song_offset = 60
+
+# Classify
+classifier.classify_song(song_files[0], song_offset, clip_duration)
+classifier.classify_song(song_files[1], song_offset, clip_duration)
+classifier.classify_song(song_files[2], song_offset, clip_duration)
+```
+
+```python3
+# Outputs
+
+1/1 [==============================] - 0s 72ms/step
+Classification:  pop
+array(['pop'], dtype=object)
+
+1/1 [==============================] - 0s 81ms/step
+Classification:  hiphop
+array(['hiphop'], dtype=object)
+
+1/1 [==============================] - 0s 69ms/step
+Classification:  classical
+array(['classical'], dtype=object)
+```
+
 ## Developer Instructions
 
 **Initializing Virtual Environment**: The virtual environment will allow us to manage dependencies together and eventually deploy our project.
