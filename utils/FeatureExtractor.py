@@ -138,4 +138,5 @@ class FeatureExtractor():
         self.__load_music(file_name, offset, duration)
         self.features = self.__extract_features()
         self.output = self.__format_output()
+        print(self.output)
         return self.output
