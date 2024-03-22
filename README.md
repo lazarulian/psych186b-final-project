@@ -1,33 +1,98 @@
-## Use the Classifier
-To try out the classifier, set your environment up using the developer instructions, then hop into a notebook to use the `Classifier` module. I already set one up titled `Predict.ipynb`. Within the playground, you can call and use the classifier as follows. 
+## Classifier API
 
-```python3
-# Initialize Parameters
-song_files = ["./data/Ex-Factor_LaurynHill.mp3", "./data/CaliforniaLove_Tupac.wav", "ASongofIceandFire_GameOfThrones.wav"]
+The `Classifier` class provides functionality for classifying audio files into predefined music genres. It uses a pre-trained machine learning model to analyze audio features and make predictions.
+
+### Initialization
+
+To create an instance of the `Classifier` class, simply call the constructor:
+
+```python
+from Classifier import Classifier
+
+classifier = Classifier()
+```
+
+The constructor initializes the necessary components for music classification, including loading the pre-trained model, scaler, and class converter.
+
+### Methods
+
+#### `classify_song(file_name, offset, duration)`
+
+Classifies a song into predefined categories based on its audio features.
+
+Parameters:
+
+- `file_name` (str): The path to the audio file.
+- `offset` (int): The starting point in the file to begin analysis (in seconds).
+- `duration` (int): The duration (in seconds) of the audio clip from the offset to analyze.
+
+Returns:
+
+- `classification` (array): The predicted class label(s) for the song.
+
+#### `enhanced_classify(file_name)`
+
+Classifies a song into predefined categories based on its audio features by splitting it into 3-second segments.
+
+Parameters:
+
+- `file_name` (str): The path to the audio file.
+
+Returns:
+
+- `predicted_genre` (str): The predicted genre of the song based on the majority of segment classifications.
+
+### Usage
+
+To use the `Classifier` class, follow these steps:
+
+1. Create an instance of the `Classifier` class:
+
+   ```python
+   classifier = Classifier()
+   ```
+
+2. Call the desired classification method with the appropriate parameters:
+
+   ```python
+   # Classify a song using a specific offset and duration
+   classification = classifier.classify_song("path/to/song.mp3", offset=60, duration=3)
+
+   # Classify a song using the enhanced classification method
+   predicted_genre = classifier.enhanced_classify("path/to/song.mp3")
+   ```
+
+3. The `classify_song` method returns an array of predicted class labels for the specified audio segment, while the `enhanced_classify` method returns the predicted genre based on the majority of segment classifications.
+
+### Example
+
+Here's an example of how to use the `Classifier` class:
+
+```python
+# Initialize the classifier
+classifier = Classifier()
+
+# Specify the song files and parameters
+song_files = [
+    "./data/Ex-Factor_LaurynHill.mp3",
+    "./data/CaliforniaLove_Tupac.wav",
+    "ASongofIceandFire_GameOfThrones.wav"
+]
 clip_duration = 3
 song_offset = 60
 
-# Classify
-classifier.classify_song(song_files[0], song_offset, clip_duration)
-classifier.classify_song(song_files[1], song_offset, clip_duration)
-classifier.classify_song(song_files[2], song_offset, clip_duration)
+# Classify the songs
+for song_file in song_files:
+    classification = classifier.classify_song(song_file, song_offset, clip_duration)
+    print(f"Classification for {song_file}: {classification}")
+
+    predicted_genre = classifier.enhanced_classify(song_file)
+    print(f"Predicted genre for {song_file}: {predicted_genre}")
 ```
 
-```python3
-# Outputs
+In this example, we initialize the `Classifier` instance, specify the song files and parameters, and then use the `classify_song` and `enhanced_classify` methods to classify each song. The results are printed to the console.
 
-1/1 [==============================] - 0s 72ms/step
-Classification:  pop
-array(['pop'], dtype=object)
-
-1/1 [==============================] - 0s 81ms/step
-Classification:  hiphop
-array(['hiphop'], dtype=object)
-
-1/1 [==============================] - 0s 69ms/step
-Classification:  classical
-array(['classical'], dtype=object)
-```
+Note: Make sure to set up your environment according to the developer instructions before using the `Classifier` class.
 
 ## Developer Instructions
 
@@ -47,12 +112,7 @@ pip install -r requirements.txt
 pip freeze > requirements.txt
 ```
 
-## Literature
-
-- [Convolutional Neural Networks Approach for Music Genre Classification](https://ieeexplore.ieee.org/document/9394067)
-  - Exploring the workings of how CNN's operate using our dataset. This is more of a scientific paper.
-- [Music Genre Classification Using CNN](https://www.clairvoyant.ai/blog/music-genre-classification-using-cnn)
-  - Simple example of classification using CNN
+**Downloading the Data:** You need to download the data so that the model can train properly. Use this [link](https://www.kaggle.com/datasets/carlthome/gtzan-genre-collection) to download the file. Please place the contents in a folder named `data` in the root directory of the project.
 
 ## Project Overview
 

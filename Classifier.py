@@ -10,6 +10,7 @@ from sklearn.preprocessing import StandardScaler
 import tensorflow as tf 
 from tensorflow import keras
 from tensorflow.keras.models import Sequential
+from collections import Counter
 
 # Module Imports
 import utils
@@ -58,3 +59,46 @@ class Classifier():
         classification = self.converter.inverse_transform(np.argmax(raw_classification, axis=1))
         
         return classification
+    
+    def enhanced_classify(self, file_name):
+        """
+        Classifies a song into predefined categories based on its audio features by splitting it into 3-second segments.
+
+        Parameters:
+        - file_name: str, the path to the audio file.
+
+        Returns:
+        - predicted_genre: str, the predicted genre of the song based on the majority of segment classifications.
+        """
+        # Load the audio file
+        y, sr = librosa.load(file_name)
+
+        # Calculate the total duration of the audio file in seconds
+        duration = librosa.get_duration(y=y, sr=sr)
+
+        # Initialize a Counter to store the classification counts for each segment
+        classification_counts = Counter()
+
+        # Split the audio into 3-second segments and classify each segment
+        for offset in range(0, int(duration), 6):
+            # Extract features from the current segment using the FeatureExtractor instance
+            music_features = self.extractor.process_music(file_name, offset, 3)
+
+            # Normalize the extracted features using the loaded scaler
+            scaled_input = self.scaler.transform(np.array(music_features, dtype=float))
+
+            # Use the loaded model to predict the class of the segment based on the scaled features
+            raw_classification = self.model.predict(scaled_input)
+
+            # Convert the model's prediction (numerical) back to the original class labels
+            classification = self.converter.inverse_transform(np.argmax(raw_classification, axis=1))
+
+            # Increment the count for the predicted genre in the classification_counts Counter
+            classification_counts[classification[0]] += 1
+
+        # Determine the predicted genre based on the majority of segment classifications
+        predicted_genre = classification_counts.most_common(1)[0][0]
+
+        print("Other Detected Sub-Genres Include: ", classification_counts)
+        print("Main Genre Detected: ", predicted_genre)
+        return predicted_genre
